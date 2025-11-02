@@ -9,6 +9,8 @@ import CountUpNumber from "../components/CountUpNumber";
 import FadeInWhenVisible from "../components/FadeInWhenVisible";
 import StickyPricingBar from "../components/StickyPricingBar";
 import FounderStory from "../components/FounderStory";
+import HeaderMobile from "../components/HeaderMobile";
+import TrustBar from "../components/TrustBar";
 
 export default function Page() {
   const [isMobile, setIsMobile] = useState(false);
@@ -23,6 +25,9 @@ export default function Page() {
 
   return (
     <main className="text-white bg-[#0B1222] overflow-x-hidden">
+      {/* MOBILE HEADER */}
+      <HeaderMobile />
+
       {/* Sticky Pricing Bar */}
       <StickyPricingBar />
 
@@ -79,6 +84,9 @@ export default function Page() {
           </div>
         </FadeInWhenVisible>
       </section>
+
+      {/* TRUST BAR */}
+      <TrustBar />
 
       {/* ROI CALCULATOR */}
       <FadeInWhenVisible delay={0.2}>
