@@ -32,3 +32,4 @@ export default function CountUpNumber({ value, prefix = "", suffix = "" }) {
     </span>
   );
 }
+ 
