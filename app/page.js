@@ -7,6 +7,8 @@ import LeadCaptureForm from "../components/LeadCaptureForm";
 import AIDemoWidget from "../components/AIDemoWidget";
 import CountUpNumber from "../components/CountUpNumber";
 import FadeInWhenVisible from "../components/FadeInWhenVisible";
+import StickyPricingBar from "../components/StickyPricingBar";
+import FounderStory from "../components/FounderStory";
 
 export default function Page() {
   const [isMobile, setIsMobile] = useState(false);
@@ -21,20 +23,8 @@ export default function Page() {
 
   return (
     <main className="text-white bg-[#0B1222] overflow-x-hidden">
-      {/* Floating CTA */}
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.2, delay: 1.4 }}
-        className="fixed bottom-4 right-4 z-50"
-      >
-        <a
-          href="#trial"
-          className="bg-gradient-to-r from-[#F4C762] to-[#EEB94A] text-[#0B1222] font-bold px-6 py-3 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
-        >
-          Start 14-Day Trial
-        </a>
-      </motion.div>
+      {/* Sticky Pricing Bar */}
+      <StickyPricingBar />
 
       {/* HERO SECTION */}
       <section
@@ -97,27 +87,6 @@ export default function Page() {
         </section>
       </FadeInWhenVisible>
 
-      {/* FOUNDING MEMBER OFFER */}
-      <FadeInWhenVisible delay={0.3}>
-        <section className="bg-[#16254B] py-16 text-center px-6">
-          <div className="max-w-3xl mx-auto bg-[#0B1222]/70 backdrop-blur-xl border border-[#F4C762]/30 rounded-3xl p-10 shadow-lg hover:scale-[1.02] transition-transform duration-300">
-            <h2 className="text-3xl font-extrabold mb-4 text-[#F4C762]">
-              🚀 Founding Member Launch Offer
-            </h2>
-            <p className="text-white/85 mb-6">
-              Lock in your lifetime discount before prices go up — early members
-              get <span className="font-bold text-[#F4C762]">60% off for life</span>.
-            </p>
-            <a
-              href="#trial"
-              className="bg-gradient-to-r from-[#F4C762] to-[#EEB94A] text-[#0B1222] font-bold px-8 py-4 rounded-full shadow-lg hover:scale-105 transition-transform"
-            >
-              Claim My Lifetime Access
-            </a>
-          </div>
-        </section>
-      </FadeInWhenVisible>
-
       {/* DEMO SECTION */}
       <FadeInWhenVisible delay={0.3}>
         <section
@@ -137,7 +106,10 @@ export default function Page() {
         </section>
       </FadeInWhenVisible>
 
-      {/* TRIAL FORM */}
+      {/* FOUNDER STORY */}
+      <FounderStory />
+
+      {/* LEAD FORM */}
       <FadeInWhenVisible delay={0.3}>
         <section id="trial" className="py-24 px-6 text-center bg-[#16254B]">
           <LeadCaptureForm />
@@ -146,3 +118,4 @@ export default function Page() {
     </main>
   );
 }
+
