@@ -1,23 +1,6 @@
-/* === DishFuse Base Styling === */
-* {
-  box-sizing: border-box;
+body {
   margin: 0;
-  padding: 0;
-}
-
-html, body {
-  height: 100%;
-  width: 100%;
   font-family: Inter, system-ui, sans-serif;
   background-color: #0B1222;
   color: white;
-}
-
-main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  min-height: 100vh;
 }
