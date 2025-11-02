@@ -4,13 +4,14 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-import ROIProfitCalculator from "./components/ROIProfitCalculator";
-import LeadCaptureForm from "./components/LeadCaptureForm";
-import AIDemoWidget from "./components/AIDemoWidget";
-import CountUpNumber from "./components/CountUpNumber";
-import FadeInWhenVisible from "./components/FadeInWhenVisible";
-import Header from "./components/Header";
-import Testimonials from "./components/Testimonials";
+import ROIProfitCalculator from "../components/ROIProfitCalculator";
+import LeadCaptureForm from "../components/LeadCaptureForm";
+import AIDemoWidget from "../components/AIDemoWidget";
+import CountUpNumber from "../components/CountUpNumber";
+import FadeInWhenVisible from "../components/FadeInWhenVisible";
+import Header from "../components/Header";
+import Testimonials from "../components/Testimonials";
+
 
 export default function Page() {
   const [isMobile, setIsMobile] = useState(false);
