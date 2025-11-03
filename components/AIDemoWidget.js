@@ -5,28 +5,48 @@ import { motion, AnimatePresence } from "framer-motion";
 
 export default function AIDemoWidget() {
   const [step, setStep] = useState(0);
+  const [loop, setLoop] = useState(0);
 
-  // Simulated back-and-forth chat between customer and Maria
-  const conversation = [
-    { from: "user", text: "Hey Maria, can you check my menu margins for this week?" },
-    { from: "ai", text: "Of course 👋 Let’s analyze your sales and cost data..." },
-    { from: "ai", text: "You’re running a 35% food cost — that’s slightly above optimal 🍽️" },
-    { from: "ai", text: "I recommend raising Ribeye by 6% and optimizing vendor order size 📊" },
-    { from: "user", text: "How much could that increase profit?" },
-    { from: "ai", text: "That would boost your monthly margin by +18% 💰" },
+  // 3 looping conversation sets
+  const chatLoops = [
+    [
+      { from: "user", text: "Hey DishFuse, can you review my menu margins?" },
+      { from: "ai", text: "Analyzing sales and vendor data 📊" },
+      { from: "ai", text: "You’re running at 34.8% food cost — slightly high 🍽️" },
+      { from: "ai", text: "Suggested: Raise Ribeye by 6% to improve margins 💰" },
+    ],
+    [
+      { from: "user", text: "How’s our food waste looking this week?" },
+      { from: "ai", text: "Yesterday’s spinach & shrimp overstock was 11%. Adjusting reorder size 🧾" },
+      { from: "ai", text: "Projected waste reduction: 22% 🌿" },
+    ],
+    [
+      { from: "user", text: "Can you automate vendor ordering for next week?" },
+      { from: "ai", text: "Already handled ✅ Sending orders to your suppliers now." },
+      { from: "ai", text: "You just saved 3 hours this week ⏱️" },
+    ],
   ];
 
-  // Auto-progress chat every few seconds
+  // Cycle messages every 3 seconds
   useEffect(() => {
-    if (step < conversation.length - 1) {
+    const currentChat = chatLoops[loop];
+    if (step < currentChat.length - 1) {
       const timer = setTimeout(() => setStep(step + 1), 3000);
       return () => clearTimeout(timer);
+    } else {
+      const timer = setTimeout(() => {
+        setStep(0);
+        setLoop((loop + 1) % chatLoops.length);
+      }, 4000);
+      return () => clearTimeout(timer);
     }
-  }, [step]);
+  }, [step, loop]);
+
+  const currentChat = chatLoops[loop];
 
   return (
     <div className="relative w-full max-w-6xl mx-auto overflow-hidden rounded-2xl shadow-2xl border border-white/10 bg-[#0B1222]/50 backdrop-blur-md">
-      {/* Background Video */}
+      {/* Background video */}
       <video
         autoPlay
         muted
@@ -38,13 +58,13 @@ export default function AIDemoWidget() {
         <source src="/chat.mp4" type="video/mp4" />
       </video>
 
-      {/* Overlay gradient for readability */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0B1222]/60 via-transparent to-transparent rounded-2xl" />
+      {/* Dark gradient overlay for readability */}
+      <div className="absolute inset-0 bg-gradient-to-t from-[#0B1222]/70 via-transparent to-transparent rounded-2xl" />
 
-      {/* Chat conversation overlay */}
-      <div className="absolute bottom-[5%] left-0 w-full px-[5%] flex flex-col gap-3 md:gap-4 text-sm md:text-base">
+      {/* Chat bubbles overlay */}
+      <div className="absolute bottom-[6%] left-0 w-full px-[5%] flex flex-col gap-3 md:gap-4 text-sm md:text-base">
         <AnimatePresence mode="wait">
-          {conversation.slice(0, step + 1).map((msg, i) => (
+          {currentChat.slice(0, step + 1).map((msg, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 15 }}
@@ -62,11 +82,10 @@ export default function AIDemoWidget() {
         </AnimatePresence>
       </div>
 
-      {/* Branding Tag */}
-      <p className="absolute bottom-[1%] right-[3%] text-[10px] md:text-xs text-white/70 italic">
-        Maria — your AI restaurant assistant 🤖
+      {/* Tagline */}
+      <p className="absolute bottom-[2%] right-[3%] text-[10px] md:text-xs text-white/70 italic">
+        DishFuse AI Assistant 🤖
       </p>
     </div>
   );
 }
-
