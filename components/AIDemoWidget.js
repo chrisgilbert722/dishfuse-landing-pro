@@ -4,31 +4,29 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function AIDemoWidget() {
-  const [phase, setPhase] = useState(0);
+  const [step, setStep] = useState(0);
 
-  useEffect(() => {
-    const interval = setInterval(() => setPhase((p) => (p === 0 ? 1 : 0)), 11000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const scripts = [
-    [
-      "Analyzing menu performance...",
-      "Forecasting next week’s demand 📈",
-      "Recommending: Raise Ribeye price +6%",
-      "Projected margin lift: +18% 💰",
-    ],
-    [
-      "Reviewing sales trends...",
-      "Optimizing vendor costs 🧾",
-      "Suggested reorder schedule: 2×/week 🌿",
-      "Waste reduction: 22% improvement 🌱",
-    ],
+  // Simulated back-and-forth chat between customer and Maria
+  const conversation = [
+    { from: "user", text: "Hey Maria, can you check my menu margins for this week?" },
+    { from: "ai", text: "Of course 👋 Let’s analyze your sales and cost data..." },
+    { from: "ai", text: "You’re running a 35% food cost — that’s slightly above optimal 🍽️" },
+    { from: "ai", text: "I recommend raising Ribeye by 6% and optimizing vendor order size 📊" },
+    { from: "user", text: "How much could that increase profit?" },
+    { from: "ai", text: "That would boost your monthly margin by +18% 💰" },
   ];
 
+  // Auto-progress chat every few seconds
+  useEffect(() => {
+    if (step < conversation.length - 1) {
+      const timer = setTimeout(() => setStep(step + 1), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [step]);
+
   return (
-    <div className="relative w-full max-w-6xl mx-auto overflow-hidden rounded-2xl shadow-2xl border border-white/10 bg-[#0B1222]/50 backdrop-blur-lg">
-      {/* Video */}
+    <div className="relative w-full max-w-6xl mx-auto overflow-hidden rounded-2xl shadow-2xl border border-white/10 bg-[#0B1222]/50 backdrop-blur-md">
+      {/* Background Video */}
       <video
         autoPlay
         muted
@@ -40,44 +38,33 @@ export default function AIDemoWidget() {
         <source src="/chat.mp4" type="video/mp4" />
       </video>
 
-      {/* Subtle gradient for readability */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0B1222]/70 via-transparent to-[#0B1222]/20 rounded-2xl" />
+      {/* Overlay gradient for readability */}
+      <div className="absolute inset-0 bg-gradient-to-t from-[#0B1222]/60 via-transparent to-transparent rounded-2xl" />
 
-      {/* Full-width chat overlay */}
-      <div className="absolute bottom-[6%] left-0 w-full px-[5%] space-y-3 flex flex-col items-start md:items-center">
-        <p className="text-white/85 text-sm md:text-base mb-2 font-semibold drop-shadow-md w-full text-left md:text-center">
-          Maria — DishFuse
-        </p>
-
-        <div className="w-full flex flex-col items-center">
-          <AnimatePresence mode="wait">
-            {scripts[phase].map((line, i) => (
-              <motion.div
-                key={`${phase}-${i}`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.6, delay: i * 1.2 }}
-                className={`backdrop-blur-md w-full max-w-[90%] md:max-w-[800px] mx-auto px-6 py-4 rounded-2xl border shadow-lg text-center ${
-                  i % 2 === 0
-                    ? "bg-white/10 border-white/10 text-white"
-                    : "bg-gradient-to-r from-[#F4C762]/90 to-[#EEB94A]/80 text-[#0B1222] font-semibold"
-                }`}
-                style={{
-                  backdropFilter: "blur(10px)",
-                  WebkitBackdropFilter: "blur(10px)",
-                }}
-              >
-                {line}
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </div>
+      {/* Chat conversation overlay */}
+      <div className="absolute bottom-[5%] left-0 w-full px-[5%] flex flex-col gap-3 md:gap-4 text-sm md:text-base">
+        <AnimatePresence mode="wait">
+          {conversation.slice(0, step + 1).map((msg, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className={`w-fit max-w-[85%] px-5 py-3 rounded-2xl shadow-md backdrop-blur-lg ${
+                msg.from === "ai"
+                  ? "self-start bg-gradient-to-r from-[#F4C762]/90 to-[#EEB94A]/90 text-[#0B1222] font-semibold"
+                  : "self-end bg-white/15 text-white border border-white/10"
+              }`}
+            >
+              {msg.text}
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </div>
 
-      {/* Caption */}
-      <p className="absolute top-[6%] left-[6%] text-xs md:text-sm text-white/85 italic tracking-wide drop-shadow">
-        Maria is optimizing your menu live ⚡
+      {/* Branding Tag */}
+      <p className="absolute bottom-[1%] right-[3%] text-[10px] md:text-xs text-white/70 italic">
+        Maria — your AI restaurant assistant 🤖
       </p>
     </div>
   );
