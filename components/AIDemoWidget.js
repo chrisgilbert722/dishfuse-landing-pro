@@ -1,91 +1,75 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 export default function AIDemoWidget() {
   const [step, setStep] = useState(0);
-  const [loop, setLoop] = useState(0);
 
-  // 3 looping conversation sets
-  const chatLoops = [
-    [
-      { from: "user", text: "Hey DishFuse, can you review my menu margins?" },
-      { from: "ai", text: "Analyzing sales and vendor data 📊" },
-      { from: "ai", text: "You’re running at 34.8% food cost — slightly high 🍽️" },
-      { from: "ai", text: "Suggested: Raise Ribeye by 6% to improve margins 💰" },
-    ],
-    [
-      { from: "user", text: "How’s our food waste looking this week?" },
-      { from: "ai", text: "Yesterday’s spinach & shrimp overstock was 11%. Adjusting reorder size 🧾" },
-      { from: "ai", text: "Projected waste reduction: 22% 🌿" },
-    ],
-    [
-      { from: "user", text: "Can you automate vendor ordering for next week?" },
-      { from: "ai", text: "Already handled ✅ Sending orders to your suppliers now." },
-      { from: "ai", text: "You just saved 3 hours this week ⏱️" },
-    ],
+  const messages = [
+    { id: 1, text: "Analyzing sales and vendor data 📊" },
+    { id: 2, text: "You're running at 34.8% food cost — slightly high 🍽️" },
+    { id: 3, text: "Recommendation: Raise pasta dishes +$1.25 💡" },
+    { id: 4, text: "Projected margin lift: +18% 💰" },
   ];
 
-  // Cycle messages every 3 seconds
   useEffect(() => {
-    const currentChat = chatLoops[loop];
-    if (step < currentChat.length - 1) {
-      const timer = setTimeout(() => setStep(step + 1), 3000);
-      return () => clearTimeout(timer);
-    } else {
-      const timer = setTimeout(() => {
-        setStep(0);
-        setLoop((loop + 1) % chatLoops.length);
-      }, 4000);
-      return () => clearTimeout(timer);
-    }
-  }, [step, loop]);
-
-  const currentChat = chatLoops[loop];
+    const interval = setInterval(() => {
+      setStep((prev) => (prev + 1) % messages.length);
+    }, 3200);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <div className="relative w-full max-w-6xl mx-auto overflow-hidden rounded-2xl shadow-2xl border border-white/10 bg-[#0B1222]/50 backdrop-blur-md">
-      {/* Background video */}
+    <div className="relative w-full max-w-[900px] mx-auto overflow-hidden rounded-2xl shadow-2xl border border-white/10">
+      {/* Background Video */}
       <video
         autoPlay
         muted
         loop
         playsInline
         preload="auto"
-        className="w-full h-auto object-cover rounded-2xl brightness-[0.85]"
+        className="w-full h-[480px] md:h-[520px] object-cover brightness-[0.85]"
       >
-        <source src="/chat.mp4" type="video/mp4" />
+        <source src="/video/chat.mp4" type="video/mp4" />
       </video>
 
-      {/* Dark gradient overlay for readability */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0B1222]/70 via-transparent to-transparent rounded-2xl" />
+      {/* Overlay Layer */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
 
-      {/* Chat bubbles overlay */}
-      <div className="absolute bottom-[6%] left-0 w-full px-[5%] flex flex-col gap-3 md:gap-4 text-sm md:text-base">
-        <AnimatePresence mode="wait">
-          {currentChat.slice(0, step + 1).map((msg, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className={`w-fit max-w-[85%] px-5 py-3 rounded-2xl shadow-md backdrop-blur-lg ${
-                msg.from === "ai"
-                  ? "self-start bg-gradient-to-r from-[#F4C762]/90 to-[#EEB94A]/90 text-[#0B1222] font-semibold"
-                  : "self-end bg-white/15 text-white border border-white/10"
-              }`}
-            >
-              {msg.text}
-            </motion.div>
-          ))}
-        </AnimatePresence>
+      {/* Chat Overlay */}
+      <div className="absolute inset-0 flex flex-col justify-end items-center p-4 md:p-8 text-center">
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-white/90 italic text-sm md:text-base mb-2"
+        >
+          Maria — <span className="text-[#F4C762] font-semibold">DishFuse Assistant</span>
+        </motion.p>
+
+        <motion.div
+          key={messages[step].id}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="flex flex-col gap-2 w-full md:w-[80%] max-w-[600px] mx-auto"
+        >
+          <div
+            className="bg-gradient-to-r from-[#F4C762] to-[#EEB94A] text-[#0B1222] rounded-full py-3 md:py-4 px-4 md:px-6 font-semibold text-sm md:text-lg shadow-md mx-auto"
+            style={{
+              maxWidth: "90%",
+              backdropFilter: "blur(6px)",
+            }}
+          >
+            {messages[step].text}
+          </div>
+        </motion.div>
       </div>
 
-      {/* Tagline */}
-      <p className="absolute bottom-[2%] right-[3%] text-[10px] md:text-xs text-white/70 italic">
-        DishFuse AI Assistant 🤖
-      </p>
+      {/* Border Glow */}
+      <div className="absolute inset-0 rounded-2xl ring-1 ring-[#F4C762]/20 shadow-[0_0_25px_rgba(244,199,98,0.2)] pointer-events-none"></div>
     </div>
   );
 }
+
