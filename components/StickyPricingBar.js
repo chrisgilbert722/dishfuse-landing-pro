@@ -1,43 +1,53 @@
 "use client";
-
-import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function StickyPricingBar() {
-  const [isVisible, setIsVisible] = useState(false);
+  const [show, setShow] = useState(true);
+  const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollY = window.scrollY;
-      setIsVisible(scrollY > 400);
+      const currentY = window.scrollY;
+      // Hide when scrolling down, show when scrolling up
+      setShow(currentY < scrollY || currentY < 200);
+      setScrollY(currentY);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [scrollY]);
 
   return (
-    <motion.div
-      initial={{ y: 100, opacity: 0 }}
-      animate={isVisible ? { y: 0, opacity: 1 } : { y: 100, opacity: 0 }}
-      transition={{ duration: 0.4 }}
-      className="fixed bottom-0 inset-x-0 z-50 bg-gradient-to-r from-[#0B1222] to-[#1A2C50] border-t border-white/10 shadow-2xl"
-    >
-      <div className="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between text-white">
-        <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-4">
-          <span className="font-bold text-[#F4C762] text-lg">
-            ⚡ Early Adopter Pricing — 60% Lifetime Discount
-          </span>
-          <span className="text-white/70 text-sm">
-            Lock in your DishFuse access before launch increases.
-          </span>
-        </div>
-        <a
-          href="#trial"
-          className="bg-gradient-to-r from-[#F4C762] to-[#EEB94A] text-[#0B1222] font-bold px-6 py-2.5 rounded-full shadow-lg hover:scale-105 transition-transform"
+    <AnimatePresence>
+      {show && (
+        <motion.div
+          initial={{ y: 100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 100, opacity: 0 }}
+          transition={{ duration: 0.4, ease: "easeInOut" }}
+          className="fixed bottom-0 left-0 w-full z-[100] bg-gradient-to-r from-[#0B1222]/95 to-[#16254B]/95 border-t border-[#F4C762]/20 shadow-[0_0_20px_rgba(244,199,98,0.25)] backdrop-blur-lg"
         >
-          Start 14-Day Free Trial
-        </a>
-      </div>
-    </motion.div>
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between px-6 py-3 text-center md:text-left">
+            {/* Left Text */}
+            <p className="text-sm md:text-base text-white/80 mb-2 md:mb-0">
+              ⚡{" "}
+              <span className="text-[#F4C762] font-semibold">
+                Early Adopter Pricing — 60% Lifetime Discount
+              </span>{" "}
+              Lock in your DishFuse access before launch increases.
+            </p>
+
+            {/* CTA */}
+            <a
+              href="#trial"
+              className="bg-gradient-to-r from-[#F4C762] to-[#EEB94A] text-[#0B1222] font-extrabold px-6 py-3 rounded-full shadow-lg hover:scale-105 transition-all duration-300"
+            >
+              Start 14-Day Free Trial
+            </a>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
+
