@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-// main components already present in repo
+// Core components
 import CountUpNumber from "../components/CountUpNumber";
 import FadeInWhenVisible from "../components/FadeInWhenVisible";
 import ROIProfitCalculator from "../components/ROIProfitCalculator";
@@ -16,12 +16,13 @@ import TrustBar from "../components/TrustBar";
 import FAQ from "../components/FAQ";
 import TestimonialCarousel from "../components/TestimonialCarousel";
 
-// ✅ new components you just added
+// Added conversion boosters
 import CountdownTimer from "../components/CountdownTimer";
 import StickySocialProof from "../components/StickySocialProof";
 import TrustBadge from "../components/TrustBadge";
+import Header from "../components/Header";
 
-/* ---------------- Quick Setup Section ---------------- */
+/* ------------ Quick Setup Section ------------ */
 function SetupSection() {
   const steps = [
     {
@@ -90,7 +91,7 @@ function SetupSection() {
   );
 }
 
-/* ---------------- All-in-One Feature Expansion ---------------- */
+/* ------------ Feature Expansion Section ------------ */
 function FeatureExpansion() {
   const features = [
     {
@@ -180,7 +181,7 @@ function FeatureExpansion() {
   );
 }
 
-/* ---------------- Main Page ---------------- */
+/* ------------ Main Page ------------ */
 export default function Page() {
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
@@ -192,16 +193,14 @@ export default function Page() {
   }, []);
 
   const handleFooterLogoError = (e) => {
-    if (
-      e?.currentTarget?.src &&
-      !e.currentTarget.src.endsWith("/logo-header.png")
-    ) {
+    if (e?.currentTarget?.src && !e.currentTarget.src.endsWith("/logo-header.png")) {
       e.currentTarget.src = "/logo-header.png";
     }
   };
 
   return (
     <main className="text-white bg-[#0B1222] overflow-x-hidden">
+      <Header />
       <StickyPricingBar />
 
       {/* HERO */}
@@ -217,10 +216,7 @@ export default function Page() {
           preload="auto"
           className="absolute inset-0 w-full h-full object-cover opacity-70 brightness-[0.7]"
         >
-          <source
-            src={isMobile ? "/chat.mp4" : "/hero.mp4"}
-            type="video/mp4"
-          />
+          <source src={isMobile ? "/chat.mp4" : "/hero.mp4"} type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-[#0B1222]/90" />
 
@@ -297,7 +293,7 @@ export default function Page() {
       <footer className="border-t border-white/10 py-10 bg-[#0B1222] text-center text-white/60 text-sm">
         <div className="flex flex-col items-center gap-4">
           <Image
-            src="/logo-footer.png"
+            src="/logo-header.png"
             alt="DishFuse"
             width={160}
             height={42}
@@ -316,7 +312,7 @@ export default function Page() {
         </div>
       </footer>
 
-      {/* bottom sticky trust + proof */}
+      {/* Floating elements */}
       <StickySocialProof />
       <TrustBadge />
     </main>
