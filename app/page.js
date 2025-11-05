@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+
+// main components already present in repo
 import CountUpNumber from "../components/CountUpNumber";
 import FadeInWhenVisible from "../components/FadeInWhenVisible";
 import ROIProfitCalculator from "../components/ROIProfitCalculator";
@@ -13,11 +15,13 @@ import FounderStory from "../components/FounderStory";
 import TrustBar from "../components/TrustBar";
 import FAQ from "../components/FAQ";
 import TestimonialCarousel from "../components/TestimonialCarousel";
+
+// ✅ new components you just added
 import CountdownTimer from "../components/CountdownTimer";
 import StickySocialProof from "../components/StickySocialProof";
 import TrustBadge from "../components/TrustBadge";
 
-/* ------------------- Quick Setup Section ------------------- */
+/* ---------------- Quick Setup Section ---------------- */
 function SetupSection() {
   const steps = [
     {
@@ -36,7 +40,6 @@ function SetupSection() {
       desc: "In under 60 minutes you’ll see forecasts, pricing suggestions, and waste alerts.",
     },
   ];
-
   return (
     <section
       id="setup"
@@ -87,7 +90,7 @@ function SetupSection() {
   );
 }
 
-/* ------------------- All-in-One Feature Expansion Section ------------------- */
+/* ---------------- All-in-One Feature Expansion ---------------- */
 function FeatureExpansion() {
   const features = [
     {
@@ -177,7 +180,7 @@ function FeatureExpansion() {
   );
 }
 
-/* ------------------- Main Page ------------------- */
+/* ---------------- Main Page ---------------- */
 export default function Page() {
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
@@ -302,18 +305,10 @@ export default function Page() {
             onError={handleFooterLogoError}
           />
           <nav className="flex gap-6 text-white/70 text-sm">
-            <a href="#features" className="hover:text-[#F4C762]">
-              Features
-            </a>
-            <a href="#pricing" className="hover:text-[#F4C762]">
-              Pricing
-            </a>
-            <a href="#faq" className="hover:text-[#F4C762]">
-              FAQ
-            </a>
-            <a href="/login" className="hover:text-[#F4C762]">
-              Login
-            </a>
+            <a href="#features" className="hover:text-[#F4C762]">Features</a>
+            <a href="#pricing" className="hover:text-[#F4C762]">Pricing</a>
+            <a href="#faq" className="hover:text-[#F4C762]">FAQ</a>
+            <a href="/login" className="hover:text-[#F4C762]">Login</a>
           </nav>
           <p className="text-white/50 text-xs">
             © {new Date().getFullYear()} DishFuse. All rights reserved.
@@ -321,8 +316,10 @@ export default function Page() {
         </div>
       </footer>
 
+      {/* bottom sticky trust + proof */}
       <StickySocialProof />
       <TrustBadge />
     </main>
   );
 }
+
