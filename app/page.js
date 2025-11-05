@@ -34,7 +34,7 @@ export default function Page() {
       {/* ================= HERO SECTION ================= */}
       <section
         id="hero"
-        className="relative min-h-[80vh] flex flex-col justify-center items-center text-center px-6 md:px-12"
+        className="relative min-h-[90vh] flex flex-col justify-center items-center text-center px-6 md:px-12 overflow-hidden"
       >
         <video
           autoPlay
@@ -43,21 +43,22 @@ export default function Page() {
           playsInline
           preload="auto"
           poster="/ai.png"
-          className="absolute inset-0 w-full h-full object-cover opacity-70 brightness-[0.8]"
+          className="absolute inset-0 w-full h-full object-cover opacity-70 brightness-[0.9]"
         >
           <source
             src={isMobile ? "/video/hero-720.mp4" : "/video/hero-1080.mp4"}
             type="video/mp4"
           />
         </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-[#0B1222]/90"></div>
+
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-[#0B1222]/90"></div>
 
         <div className="relative z-10 max-w-3xl mx-auto">
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-4xl md:text-6xl font-extrabold leading-tight text-white drop-shadow-xl"
+            transition={{ duration: 0.7 }}
+            className="text-4xl md:text-6xl font-extrabold leading-tight text-white drop-shadow-lg"
           >
             Turn food costs into{" "}
             <span className="text-[#F4C762]">predictable profit</span>
@@ -66,7 +67,7 @@ export default function Page() {
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
+            transition={{ delay: 0.2, duration: 0.7 }}
             className="mt-4 text-lg md:text-xl text-white/90"
           >
             Empower your restaurant with AI-powered pricing, forecasting, and
@@ -88,11 +89,16 @@ export default function Page() {
             </a>
           </div>
 
-          <div className="flex justify-center gap-8 mt-10 opacity-90 flex-wrap">
-            <Image src="/aws.png" alt="AWS" width={90} height={30} />
-            <Image src="/stripe.png" alt="Stripe" width={90} height={30} />
-            <Image src="/encryption.png" alt="Encryption" width={90} height={30} />
-            <Image src="/support.png" alt="Support" width={90} height={30} />
+          <div className="flex justify-center gap-6 mt-10 opacity-95 flex-wrap">
+            <Image src="/aws.png" alt="AWS" width={80} height={28} />
+            <Image src="/stripe.png" alt="Stripe" width={80} height={28} />
+            <Image
+              src="/encryption.png"
+              alt="Encryption"
+              width={80}
+              height={28}
+            />
+            <Image src="/support.png" alt="Support" width={80} height={28} />
           </div>
         </div>
       </section>
@@ -124,7 +130,7 @@ export default function Page() {
       <FadeInWhenVisible>
         <section
           id="demo"
-          className="py-20 px-6 text-center bg-gradient-to-b from-[#16254B] to-[#0B1222]"
+          className="relative py-20 px-6 text-center bg-gradient-to-b from-[#16254B] to-[#0B1222]"
         >
           <h2 className="text-3xl md:text-4xl font-extrabold mb-6">
             See DishFuse AI in Action 🤖
@@ -133,7 +139,10 @@ export default function Page() {
             Experience how DishFuse’s AI forecasts profits and reduces waste
             instantly — meet our AI assistant, Maria.
           </p>
-          <AIDemoWidget />
+
+          <div className="relative max-w-[900px] mx-auto rounded-2xl overflow-hidden shadow-xl">
+            <AIDemoWidget />
+          </div>
         </section>
       </FadeInWhenVisible>
 
@@ -154,8 +163,10 @@ export default function Page() {
       </FadeInWhenVisible>
 
       {/* ================= STICKY CTA + SOCIAL ================= */}
-      <StickyTrialCTA />
-      <StickySocialProof />
+      <div className="relative z-[60]">
+        <StickyTrialCTA />
+        <StickySocialProof />
+      </div>
     </main>
   );
 }
